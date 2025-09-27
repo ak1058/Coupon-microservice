@@ -140,17 +140,20 @@ Example:
 - Category-based cart discounts
 - Time-based discounts (happy hour, day-of-week)
 - User-specific cart discounts (first-time buyer, loyalty tier)
+ **Reason for not implementing now**: Would require a Product Catalog Service with category information, scheduling/cron job system (for time based cupons), require user info(for user specific discounts)
 
 ### Advanced Product-wise Cases
 - Cross-product dependencies
 - Bundle discounts
 - Tiered discounts by quantity
 - Brand/Category specific discounts
+ **Reason for not implementing now**: requires more strategy pattern enhancement requuires time but can be implemented
 
 ### Advanced BxGy Cases
 - Weighted BxGy (based on cart value)
 - Cross-category BxGy (electronics + accessories, clothing + free shipping)
 - Progressive BxGy (increasing benefits with repetition)
+**Reason for not implementing now**: requires advanced cart analysis algorithms
 
 ### Complex Combination Cases
 - Stackable coupons (multiple coupons applied)
