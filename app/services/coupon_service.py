@@ -6,13 +6,14 @@ from ..repositories.coupon_repository import CouponRepository
 from ..services.discount_calculator import DiscountCalculator
 from ..models.coupon import Coupon
 from ..schemas.coupon import CouponCreateRequest, CouponUpdateRequest, CouponResponse
-from ..schemas.cart import Cart, ApplicableCoupon, UpdatedCart
+from ..schemas.cart import Cart, ApplicableCoupon, UpdatedCart, ApplicableCouponsResponse
 from ..exceptions.custom_exceptions import (
     CouponNotFoundError, 
     CouponExpiredError, 
     CouponUsageLimitExceededError,
     CouponNotApplicableError
 )
+from ..strategies.sorting import SortingStrategy 
 
 class CouponService:
     def __init__(self, db: Session):
@@ -51,23 +52,53 @@ class CouponService:
             raise CouponNotFoundError(f"Coupon with id {coupon_id} not found")
         return success
     
-    def get_applicable_coupons(self, cart: Cart) -> List[ApplicableCoupon]:
-        """Get all applicable coupons for a cart with calculated discounts"""
+    def get_applicable_coupons(self, cart: Cart, sort_by: str = "discount") -> ApplicableCouponsResponse:
+        """Get applicable coupons with different sorting options"""
         active_coupons = self.repository.get_active_coupons()
         applicable_coupons = []
+        cart_total = sum(item.quantity * item.price for item in cart.items)
         
+        # Step 1: Find all applicable coupons and calculate discounts
         for coupon in active_coupons:
             if self._is_coupon_valid(coupon) and self.discount_calculator.is_coupon_applicable(cart, coupon):
                 discount = self.discount_calculator.calculate_discount(cart, coupon)
                 if discount > 0:
+                    # Calculate discount percentage of cart total
+                    discount_percentage = (discount / cart_total * 100) if cart_total > 0 else 0
+                    
                     applicable_coupons.append(ApplicableCoupon(
                         coupon_id=coupon.id,
                         type=coupon.type,
-                        discount=round(discount, 2)
+                        discount=round(discount, 2),
+                        title=coupon.title,
+                        description=coupon.description,
+                        discount_percentage=round(discount_percentage, 2)
                     ))
         
-        return applicable_coupons
-    
+        # Step 2: Apply sorting strategy
+        if sort_by == "discount":
+            applicable_coupons = SortingStrategy.sort_by_absolute_discount(applicable_coupons)
+        elif sort_by == "percentage":
+            applicable_coupons = SortingStrategy.sort_by_percentage_discount(applicable_coupons)
+        elif sort_by == "type":
+            applicable_coupons = SortingStrategy.sort_by_coupon_type_priority(applicable_coupons)
+        elif sort_by == "hybrid":
+            applicable_coupons = SortingStrategy.sort_hybrid(applicable_coupons)
+        else:
+            # Default to discount sorting if invalid sort_by provided
+            applicable_coupons = SortingStrategy.sort_by_absolute_discount(applicable_coupons)
+        
+        # Step 3: Identify best coupon and calculate total savings
+        best_coupon = applicable_coupons[0] if applicable_coupons else None
+        total_savings = sum(coupon.discount for coupon in applicable_coupons)
+        
+        return ApplicableCouponsResponse(
+            applicable_coupons=applicable_coupons,
+            best_coupon=best_coupon,
+            total_savings_potential=round(total_savings, 2)
+        )
+
+
     def apply_coupon(self, coupon_id: str, cart: Cart) -> UpdatedCart:
         """Apply specific coupon to cart"""
         coupon = self.repository.get_coupon_by_id(coupon_id)

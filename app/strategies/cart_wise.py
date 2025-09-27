@@ -19,9 +19,16 @@ class CartWiseStrategy(DiscountStrategy):
         cart_total = self._calculate_cart_total(cart)
         discount = details.get('discount', 0)
         discount_type = details.get('discount_type', 'percentage')
+        max_discount = details.get('max_discount') or details.get('discount_cap')  
         
         if discount_type == 'percentage':
-            return (cart_total * discount) / 100
+            calculated_discount = (cart_total * discount) / 100
+            
+            # Apply discount cap if specified
+            if max_discount is not None:
+                calculated_discount = min(calculated_discount, max_discount)
+                
+            return calculated_discount
         else:  # fixed amount
             return min(discount, cart_total)  # Don't exceed cart total
     

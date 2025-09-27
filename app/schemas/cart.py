@@ -27,9 +27,15 @@ class ApplicableCoupon(BaseModel):
     coupon_id: str
     type: str
     discount: float
+    title: Optional[str] = None           
+    description: Optional[str] = None    
+    discount_percentage: Optional[float] = None  
+
 
 class ApplicableCouponsResponse(BaseModel):
     applicable_coupons: List[ApplicableCoupon]
+    best_coupon: Optional[ApplicableCoupon] = None 
+    total_savings_potential: float = 0.0           
 
 class ApplyCouponRequest(BaseModel):
     cart: Cart

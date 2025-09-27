@@ -1,5 +1,5 @@
 # app/api/routes/coupons.py
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session
 from typing import List
 from ...database import get_db
@@ -115,17 +115,24 @@ async def delete_coupon(
 @router.post("/applicable-coupons", response_model=ApplicableCouponsResponse)
 async def get_applicable_coupons(
     request: ApplyCouponRequest,
+    sort_by: str = Query(
+        default="discount", 
+        description="Sort by: discount, percentage, type, hybrid"
+    ),
     coupon_service: CouponService = Depends(get_coupon_service)
 ):
     """
-    Fetch all applicable coupons for a given cart and calculate discounts
+    Fetch all applicable coupons for a given cart, sorted by benefit
     
-    Request body should contain:
-    - **cart**: Cart with items (product_id, quantity, price)
+    **Sorting Options:**
+    - **discount**: By absolute discount amount (default) - ₹500 > ₹300
+    - **percentage**: By discount percentage of cart total - 20% > 15% 
+    - **type**: By coupon type priority - BxGy > Product-wise > Cart-wise
+    - **hybrid**: Balanced scoring approach - considers both amount and percentage
     """
     try:
-        applicable_coupons = coupon_service.get_applicable_coupons(request.cart)
-        return ApplicableCouponsResponse(applicable_coupons=applicable_coupons)
+        result = coupon_service.get_applicable_coupons(request.cart, sort_by=sort_by)
+        return result
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,

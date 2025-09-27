@@ -14,6 +14,15 @@ class CartWiseDetails(BaseModel):
     threshold: float = Field(..., gt=0, description="Minimum cart value to apply discount")
     discount: Union[float, int] = Field(..., gt=0, description="Discount percentage or amount")
     discount_type: str = Field(default="percentage", description="'percentage' or 'fixed'")
+    
+    max_discount: Optional[float] = Field(None, gt=0, description="Maximum discount cap (optional)")
+    discount_cap: Optional[float] = Field(None, gt=0, description="Alternative name for max_discount")
+
+    @validator('max_discount')
+    def validate_max_discount(cls, v, values):
+        if v is not None and values.get('discount_type') == 'fixed':
+            raise ValueError("max_discount only applies to percentage discounts")
+        return v
 
 class ProductWiseDetails(BaseModel):
     product_id: int = Field(..., description="Product ID to apply discount on")
