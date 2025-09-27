@@ -1,0 +1,1015 @@
+{
+	"info": {
+		"_postman_id": "coupon-management-api-v1",
+		"name": "Coupon Management API - Complete Collection",
+		"description": "Comprehensive collection for testing all coupon management endpoints with multiple examples",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12345678"
+	},
+	"item": [
+		{
+			"name": "Health & Info",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/health",
+							"host": ["{{base_url}}"],
+							"path": ["health"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "API Root Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/",
+							"host": ["{{base_url}}"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Create Coupons",
+			"item": [
+				{
+					"name": "Cart-wise Examples",
+					"item": [
+						{
+							"name": "Ex-1: 10% Off Cart Above ₹100",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"type\": \"cart-wise\",\n  \"title\": \"10% Off on Orders Above ₹100\",\n  \"description\": \"Get 10% discount on your entire cart when you spend ₹100 or more\",\n  \"details\": {\n    \"threshold\": 100.0,\n    \"discount\": 10,\n    \"discount_type\": \"percentage\"\n  },\n  \"expires_at\": \"2024-12-31T23:59:59\",\n  \"usage_limit\": 1000\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons",
+									"host": ["{{base_url}}"],
+									"path": ["coupons"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Ex-2: ₹20 Fixed Off Above ₹150",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"type\": \"cart-wise\",\n  \"title\": \"₹20 Off on Orders Above ₹150\",\n  \"description\": \"Get flat ₹20 discount on orders above ₹150\",\n  \"details\": {\n    \"threshold\": 150.0,\n    \"discount\": 20,\n    \"discount_type\": \"fixed\"\n  },\n  \"usage_limit\": 500\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons",
+									"host": ["{{base_url}}"],
+									"path": ["coupons"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Ex-3: 15% Off Up to ₹500 Cap (Advanced)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"type\": \"cart-wise\",\n  \"title\": \"15% Off Up to ₹500 (Premium Deal)\",\n  \"description\": \"Get 15% discount up to maximum ₹500 off on orders above ₹1000\",\n  \"details\": {\n    \"threshold\": 1000.0,\n    \"discount\": 15,\n    \"discount_type\": \"percentage\",\n    \"max_discount\": 500.0\n  },\n  \"expires_at\": \"2024-06-30T23:59:59\",\n  \"usage_limit\": 200\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons",
+									"host": ["{{base_url}}"],
+									"path": ["coupons"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Ex-4: 5% Off Small Orders (Low Threshold)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"type\": \"cart-wise\",\n  \"title\": \"5% Off on Orders Above ₹50\",\n  \"description\": \"Small discount for smaller orders\",\n  \"details\": {\n    \"threshold\": 50.0,\n    \"discount\": 5,\n    \"discount_type\": \"percentage\"\n  }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons",
+									"host": ["{{base_url}}"],
+									"path": ["coupons"]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Product-wise Examples",
+					"item": [
+						{
+							"name": "Ex-1: 20% Off Product A",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"type\": \"product-wise\",\n  \"title\": \"20% Off Product A\",\n  \"description\": \"Get 20% discount on Product A (ID: 1)\",\n  \"details\": {\n    \"product_id\": 1,\n    \"discount\": 20,\n    \"discount_type\": \"percentage\",\n    \"quantity_threshold\": 1\n  }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons",
+									"host": ["{{base_url}}"],
+									"path": ["coupons"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Ex-2: ₹5 Off Each Product B (Buy 2+)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"type\": \"product-wise\",\n  \"title\": \"₹5 Off Each Product B (Buy 2+)\",\n  \"description\": \"Get ₹5 off per unit of Product B when buying 2 or more\",\n  \"details\": {\n    \"product_id\": 2,\n    \"discount\": 5,\n    \"discount_type\": \"fixed\",\n    \"quantity_threshold\": 2\n  },\n  \"usage_limit\": 300\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons",
+									"host": ["{{base_url}}"],
+									"path": ["coupons"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Ex-3: 30% Off Product C (Bulk Buy)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"type\": \"product-wise\",\n  \"title\": \"30% Off Product C (Bulk Purchase)\",\n  \"description\": \"Get 30% off Product C when buying 5 or more units\",\n  \"details\": {\n    \"product_id\": 3,\n    \"discount\": 30,\n    \"discount_type\": \"percentage\",\n    \"quantity_threshold\": 5\n  }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons",
+									"host": ["{{base_url}}"],
+									"path": ["coupons"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Ex-4: ₹10 Off Product D (Premium)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"type\": \"product-wise\",\n  \"title\": \"₹10 Off Premium Product D\",\n  \"description\": \"Flat ₹10 discount on each unit of premium Product D\",\n  \"details\": {\n    \"product_id\": 4,\n    \"discount\": 10,\n    \"discount_type\": \"fixed\",\n    \"quantity_threshold\": 1\n  },\n  \"expires_at\": \"2024-03-31T23:59:59\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons",
+									"host": ["{{base_url}}"],
+									"path": ["coupons"]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "BxGy Examples",
+					"item": [
+						{
+							"name": "Ex-1: Buy 2 Get 1 Free (Simple)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"type\": \"bxgy\",\n  \"title\": \"Buy 2 Get 1 Free\",\n  \"description\": \"Buy 2 products from our featured collection, get 1 free\",\n  \"details\": {\n    \"buy_products\": [\n      {\"product_id\": 1, \"quantity\": 2}\n    ],\n    \"get_products\": [\n      {\"product_id\": 3, \"quantity\": 1}\n    ],\n    \"repetition_limit\": 3\n  }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons",
+									"host": ["{{base_url}}"],
+									"path": ["coupons"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Ex-2: Mixed Buy 3 Get 2 Free",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"type\": \"bxgy\",\n  \"title\": \"Mixed Buy 3 Get 2 Free Deal\",\n  \"description\": \"Buy 3 items from X or Y, get 2 items from A or B free\",\n  \"details\": {\n    \"buy_products\": [\n      {\"product_id\": 1, \"quantity\": 3},\n      {\"product_id\": 2, \"quantity\": 3}\n    ],\n    \"get_products\": [\n      {\"product_id\": 4, \"quantity\": 1},\n      {\"product_id\": 5, \"quantity\": 1}\n    ],\n    \"repetition_limit\": 2\n  }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons",
+									"host": ["{{base_url}}"],
+									"path": ["coupons"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Ex-3: Buy 1 Get 1 (High Repetition)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"type\": \"bxgy\",\n  \"title\": \"Buy 1 Get 1 Free (Limited Time)\",\n  \"description\": \"Amazing BOGO deal - buy any product, get another free!\",\n  \"details\": {\n    \"buy_products\": [\n      {\"product_id\": 2, \"quantity\": 1}\n    ],\n    \"get_products\": [\n      {\"product_id\": 6, \"quantity\": 1}\n    ],\n    \"repetition_limit\": 5\n  },\n  \"expires_at\": \"2024-02-29T23:59:59\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons",
+									"host": ["{{base_url}}"],
+									"path": ["coupons"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Ex-4: Complex Multi-Product BxGy",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"type\": \"bxgy\",\n  \"title\": \"Super Combo: Buy 4 Get 3 Free\",\n  \"description\": \"Buy 4 items from any featured products, get 3 different items free\",\n  \"details\": {\n    \"buy_products\": [\n      {\"product_id\": 1, \"quantity\": 2},\n      {\"product_id\": 2, \"quantity\": 2},\n      {\"product_id\": 3, \"quantity\": 2}\n    ],\n    \"get_products\": [\n      {\"product_id\": 7, \"quantity\": 1},\n      {\"product_id\": 8, \"quantity\": 1},\n      {\"product_id\": 9, \"quantity\": 1}\n    ],\n    \"repetition_limit\": 1\n  },\n  \"usage_limit\": 100\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons",
+									"host": ["{{base_url}}"],
+									"path": ["coupons"]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Get Coupons",
+			"item": [
+				{
+					"name": "Get All Coupons",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/coupons",
+							"host": ["{{base_url}}"],
+							"path": ["coupons"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Specific Coupon by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/coupons/{{coupon_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["coupons", "{{coupon_id}}"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Update & Delete",
+			"item": [
+				{
+					"name": "Update Coupon",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Updated 15% Off Cart Deal\",\n  \"description\": \"Enhanced discount deal with better terms\",\n  \"details\": {\n    \"threshold\": 100.0,\n    \"discount\": 15,\n    \"discount_type\": \"percentage\"\n  },\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/coupons/{{coupon_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["coupons", "{{coupon_id}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Coupon (Soft Delete)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/coupons/{{coupon_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["coupons", "{{coupon_id}}"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Apply Coupons",
+			"item": [
+				{
+					"name": "Get Applicable Coupons",
+					"item": [
+						{
+							"name": "Small Cart (₹130)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cart\": {\n    \"items\": [\n      {\"product_id\": 1, \"quantity\": 2, \"price\": 50.0},\n      {\"product_id\": 2, \"quantity\": 1, \"price\": 30.0}\n    ]\n  }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons/applicable-coupons",
+									"host": ["{{base_url}}"],
+									"path": ["coupons", "applicable-coupons"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Medium Cart (₹350)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cart\": {\n    \"items\": [\n      {\"product_id\": 1, \"quantity\": 3, \"price\": 75.0},\n      {\"product_id\": 2, \"quantity\": 2, \"price\": 40.0},\n      {\"product_id\": 3, \"quantity\": 1, \"price\": 125.0}\n    ]\n  }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons/applicable-coupons",
+									"host": ["{{base_url}}"],
+									"path": ["coupons", "applicable-coupons"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Large Cart (₹800)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cart\": {\n    \"items\": [\n      {\"product_id\": 1, \"quantity\": 5, \"price\": 100.0},\n      {\"product_id\": 2, \"quantity\": 3, \"price\": 60.0},\n      {\"product_id\": 3, \"quantity\": 2, \"price\": 70.0}\n    ]\n  }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons/applicable-coupons",
+									"host": ["{{base_url}}"],
+									"path": ["coupons", "applicable-coupons"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "BxGy Test Cart",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cart\": {\n    \"items\": [\n      {\"product_id\": 1, \"quantity\": 4, \"price\": 50.0},\n      {\"product_id\": 3, \"quantity\": 2, \"price\": 25.0},\n      {\"product_id\": 4, \"quantity\": 1, \"price\": 40.0}\n    ]\n  }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons/applicable-coupons",
+									"host": ["{{base_url}}"],
+									"path": ["coupons", "applicable-coupons"]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get Applicable with Sorting",
+					"item": [
+						{
+							"name": "Sort by Discount Amount (Default)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cart\": {\n    \"items\": [\n      {\"product_id\": 1, \"quantity\": 2, \"price\": 100.0},\n      {\"product_id\": 2, \"quantity\": 1, \"price\": 50.0}\n    ]\n  }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons/applicable-coupons?sort_by=discount",
+									"host": ["{{base_url}}"],
+									"path": ["coupons", "applicable-coupons"],
+									"query": [
+										{
+											"key": "sort_by",
+											"value": "discount"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sort by Percentage",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cart\": {\n    \"items\": [\n      {\"product_id\": 1, \"quantity\": 2, \"price\": 100.0},\n      {\"product_id\": 2, \"quantity\": 1, \"price\": 50.0}\n    ]\n  }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons/applicable-coupons?sort_by=percentage",
+									"host": ["{{base_url}}"],
+									"path": ["coupons", "applicable-coupons"],
+									"query": [
+										{
+											"key": "sort_by",
+											"value": "percentage"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sort by Coupon Type",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cart\": {\n    \"items\": [\n      {\"product_id\": 1, \"quantity\": 2, \"price\": 100.0},\n      {\"product_id\": 2, \"quantity\": 1, \"price\": 50.0}\n    ]\n  }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons/applicable-coupons?sort_by=type",
+									"host": ["{{base_url}}"],
+									"path": ["coupons", "applicable-coupons"],
+									"query": [
+										{
+											"key": "sort_by",
+											"value": "type"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sort by Hybrid Score",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cart\": {\n    \"items\": [\n      {\"product_id\": 1, \"quantity\": 2, \"price\": 100.0},\n      {\"product_id\": 2, \"quantity\": 1, \"price\": 50.0}\n    ]\n  }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons/applicable-coupons?sort_by=hybrid",
+									"host": ["{{base_url}}"],
+									"path": ["coupons", "applicable-coupons"],
+									"query": [
+										{
+											"key": "sort_by",
+											"value": "hybrid"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Apply Specific Coupon",
+					"item": [
+						{
+							"name": "Apply Cart-wise Coupon",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cart\": {\n    \"items\": [\n      {\"product_id\": 1, \"quantity\": 2, \"price\": 75.0},\n      {\"product_id\": 2, \"quantity\": 1, \"price\": 50.0}\n    ]\n  }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons/apply-coupon/{{coupon_id}}",
+									"host": ["{{base_url}}"],
+									"path": ["coupons", "apply-coupon", "{{coupon_id}}"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Apply Product-wise Coupon",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cart\": {\n    \"items\": [\n      {\"product_id\": 1, \"quantity\": 3, \"price\": 60.0},\n      {\"product_id\": 2, \"quantity\": 1, \"price\": 40.0}\n    ]\n  }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons/apply-coupon/{{coupon_id}}",
+									"host": ["{{base_url}}"],
+									"path": ["coupons", "apply-coupon", "{{coupon_id}}"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Apply BxGy Coupon",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cart\": {\n    \"items\": [\n      {\"product_id\": 1, \"quantity\": 4, \"price\": 50.0},\n      {\"product_id\": 3, \"quantity\": 2, \"price\": 25.0}\n    ]\n  }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons/apply-coupon/{{coupon_id}}",
+									"host": ["{{base_url}}"],
+									"path": ["coupons", "apply-coupon", "{{coupon_id}}"]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Test Scenarios",
+			"item": [
+				{
+					"name": "Edge Cases",
+					"item": [
+						{
+							"name": "Empty Cart Test",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cart\": {\n    \"items\": []\n  }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons/applicable-coupons",
+									"host": ["{{base_url}}"],
+									"path": ["coupons", "applicable-coupons"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Single Item Cart",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cart\": {\n    \"items\": [\n      {\"product_id\": 1, \"quantity\": 1, \"price\": 25.0}\n    ]\n  }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons/applicable-coupons",
+									"host": ["{{base_url}}"],
+									"path": ["coupons", "applicable-coupons"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "High Value Cart (₹5000)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cart\": {\n    \"items\": [\n      {\"product_id\": 1, \"quantity\": 10, \"price\": 300.0},\n      {\"product_id\": 2, \"quantity\": 5, \"price\": 400.0}\n    ]\n  }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons/applicable-coupons",
+									"host": ["{{base_url}}"],
+									"path": ["coupons", "applicable-coupons"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Exact Threshold Cart (₹100)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cart\": {\n    \"items\": [\n      {\"product_id\": 1, \"quantity\": 2, \"price\": 50.0}\n    ]\n  }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons/applicable-coupons",
+									"host": ["{{base_url}}"],
+									"path": ["coupons", "applicable-coupons"]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Business Scenarios",
+					"item": [
+						{
+							"name": "Restaurant Order Cart",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cart\": {\n    \"items\": [\n      {\"product_id\": 101, \"quantity\": 2, \"price\": 15.0},\n      {\"product_id\": 102, \"quantity\": 3, \"price\": 3.0},\n      {\"product_id\": 103, \"quantity\": 1, \"price\": 8.0}\n    ]\n  }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons/applicable-coupons",
+									"host": ["{{base_url}}"],
+									"path": ["coupons", "applicable-coupons"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Electronics Store Cart",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cart\": {\n    \"items\": [\n      {\"product_id\": 201, \"quantity\": 1, \"price\": 1000.0},\n      {\"product_id\": 202, \"quantity\": 2, \"price\": 25.0},\n      {\"product_id\": 203, \"quantity\": 1, \"price\": 100.0}\n    ]\n  }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons/applicable-coupons",
+									"host": ["{{base_url}}"],
+									"path": ["coupons", "applicable-coupons"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Grocery Shopping Cart",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cart\": {\n    \"items\": [\n      {\"product_id\": 301, \"quantity\": 3, \"price\": 4.99},\n      {\"product_id\": 302, \"quantity\": 2, \"price\": 3.50},\n      {\"product_id\": 303, \"quantity\": 5, \"price\": 1.99},\n      {\"product_id\": 304, \"quantity\": 1, \"price\": 12.99},\n      {\"product_id\": 305, \"quantity\": 4, \"price\": 2.25}\n    ]\n  }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons/applicable-coupons",
+									"host": ["{{base_url}}"],
+									"path": ["coupons", "applicable-coupons"]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Error Scenarios",
+					"item": [
+						{
+							"name": "Invalid Coupon ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/coupons/invalid-coupon-id-12345",
+									"host": ["{{base_url}}"],
+									"path": ["coupons", "invalid-coupon-id-12345"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Apply Non-existent Coupon",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cart\": {\n    \"items\": [\n      {\"product_id\": 1, \"quantity\": 1, \"price\": 50.0}\n    ]\n  }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons/apply-coupon/non-existent-id",
+									"host": ["{{base_url}}"],
+									"path": ["coupons", "apply-coupon", "non-existent-id"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Invalid Cart Data",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cart\": {\n    \"items\": [\n      {\"product_id\": -1, \"quantity\": 0, \"price\": -10.0}\n    ]\n  }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/coupons/applicable-coupons",
+									"host": ["{{base_url}}"],
+									"path": ["coupons", "applicable-coupons"]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Load Testing",
+			"item": [
+				{
+					"name": "Bulk Coupon Creation",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type\": \"cart-wise\",\n  \"title\": \"Load Test Coupon {{$randomInt}}\",\n  \"description\": \"Generated for load testing\",\n  \"details\": {\n    \"threshold\": {{$randomInt}},\n    \"discount\": {{$randomInt}},\n    \"discount_type\": \"percentage\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/coupons",
+							"host": ["{{base_url}}"],
+							"path": ["coupons"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Large Cart Test (50+ items)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cart\": {\n    \"items\": [\n      {\"product_id\": 1, \"quantity\": 5, \"price\": 10.0},\n      {\"product_id\": 2, \"quantity\": 3, \"price\": 15.0},\n      {\"product_id\": 3, \"quantity\": 8, \"price\": 20.0},\n      {\"product_id\": 4, \"quantity\": 2, \"price\": 25.0},\n      {\"product_id\": 5, \"quantity\": 12, \"price\": 5.0},\n      {\"product_id\": 6, \"quantity\": 7, \"price\": 30.0},\n      {\"product_id\": 7, \"quantity\": 4, \"price\": 45.0},\n      {\"product_id\": 8, \"quantity\": 9, \"price\": 12.0},\n      {\"product_id\": 9, \"quantity\": 6, \"price\": 18.0},\n      {\"product_id\": 10, \"quantity\": 15, \"price\": 8.0}\n    ]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/coupons/applicable-coupons",
+							"host": ["{{base_url}}"],
+							"path": ["coupons", "applicable-coupons"]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Auto-set coupon_id from create coupon response",
+					"if (pm.response && pm.response.json() && pm.response.json().id) {",
+					"    pm.globals.set('coupon_id', pm.response.json().id);",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Auto-capture coupon ID from creation responses",
+					"if (pm.response.code === 201 && pm.response.json().id) {",
+					"    pm.globals.set('coupon_id', pm.response.json().id);",
+					"    console.log('Captured coupon ID:', pm.response.json().id);",
+					"}",
+					"",
+					"// Basic response validation",
+					"if (pm.response.code < 400) {",
+					"    pm.test('Status code is success', function () {",
+					"        pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+					"    });",
+					"}",
+					"",
+					"// JSON response validation",
+					"if (pm.response.headers.get('Content-Type') && pm.response.headers.get('Content-Type').includes('application/json')) {",
+					"    pm.test('Response is valid JSON', function () {",
+					"        pm.response.to.have.jsonBody();",
+					"    });",
+					"}"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "coupon_id",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
