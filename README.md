@@ -27,6 +27,11 @@ A RESTful API to manage and apply different types of discount coupons (cart-wise
 2. **Product-wise Discounts**: Discounts applied to specific products
 3. **Buy X Get Y (BxGy)**: Buy X items, get Y items free or discounted
 
+## Documentation
+
+For documented cases and limitations, please refer to  [See docs readme ](docs_readme.md)
+
+**Download* **postman_collection.json** in the root and import in postman to see the api usage**
 
 ## Setup Instructions
 
@@ -132,6 +137,4 @@ pytest
 
 ---
 
-## Documentation
 
-For documented cases and limitations, please refer to  [See docs readme ](docs_readme.md)
